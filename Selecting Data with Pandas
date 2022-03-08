@@ -1,4 +1,5 @@
 #Index and select data:square bracket--limited functionality,loc and iloc
+
 #extract for one column
 brics[['country']] #if you want to select the country column but keep the data in a dataframe-->need a double square brackets
 #extract for two column
@@ -17,3 +18,29 @@ brics.loc[:, ["country", "capital"]] #the intersection span all rows
 brics.iloc[[1,2,3]] #return the dataframe include the first three rows
 brics.iloc[[1,2,3], [0, 1]]
 brics.iloc[:, [0,1]]
+
+##iterrows##Iterate over DataFrame rows as (index, Series) pairs.https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.iterrows.html
+import pandas as pd
+brics = pd.read_csv("brics.csv", index_col = 0)
+for lab, row in brics.iterrows():  #change the row label to lab,row data as row
+    print(lab) #return a series
+    print(row)
+
+import pandas as pd
+brics = pd.read_csv("brics.csv", index_col = 0)
+for lab, row in brics.iterrows():
+    print(lab + ": " + row["capital"])
+    
+#add column-using len()
+import pandas as pd
+brics = pd.read_csv("brics.csv", index_col = 0)
+for lab, row in brics.iterrows() :
+    # - Creating Series on every iteration,add new column
+    brics.loc[lab, "name_length"] = len(row["country"])
+print(brics)
+
+#add column-using apply()
+import pandas as pd
+brics = pd.read_csv("brics.csv", index_col = 0)
+brics["name_length"] = brics["country"].apply(len)
+print(brics)
